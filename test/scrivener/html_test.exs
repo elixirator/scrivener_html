@@ -50,7 +50,7 @@ defmodule Scrivener.HTMLTest do
     end
 
     test "2 away from the last when (total_pages - page_number) > 3" do
-      assert pages(1..12) == links_with_opts(total_pages: 13, page_number: 8)
+      assert pages(4..13) == links_with_opts(total_pages: 13, page_number: 9)
     end
 
     test "1 away from the last" do
@@ -617,9 +617,9 @@ defmodule Scrivener.HTMLTest do
                   [
                     60,
                     "li",
-                    [[32, "class", 61, 34, "ellipsis", 34]],
+                    [[32, "class", 61, 34, "", 34]],
                     62,
-                    [60, "span", [[32, "class", 61, 34, "", 34]], 62, "", 60, 47, "span", 62],
+                    [60, "span", [[32, "class", 61, 34, "", 34]], 62, "9", 60, 47, "span", 62],
                     60,
                     47,
                     "li",
