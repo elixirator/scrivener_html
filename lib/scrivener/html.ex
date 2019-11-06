@@ -132,8 +132,8 @@ defmodule Scrivener.HTML do
         path: path,
         args: [conn, merged_opts[:action]] ++ args,
         page_param: merged_opts[:page_param],
-        live_links: merged_opts[:live_links],
-        params: params
+        params: params,
+        live_links: merged_opts[:live_links]
       )
     end
   end
@@ -188,7 +188,8 @@ defmodule Scrivener.HTML do
          path: _path,
          args: _args,
          page_param: _page_param,
-         params: _params
+         params: _params,
+         live_links: _live_links
        )
        when not (style in @view_styles) do
     raise "Scrivener.HTML: View style #{inspect(style)} is not a valid view style. Please use one of #{
