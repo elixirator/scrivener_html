@@ -407,7 +407,6 @@ defmodule Scrivener.HTML do
   defp may_make_live(keywords, _to, false), do: keywords
   defp may_make_live(keywords, to, true) do
     keywords
-    |> Keyword.put(:href, to)
     |> Keyword.put(:"data-phx-live-link", "push")
   end
 
