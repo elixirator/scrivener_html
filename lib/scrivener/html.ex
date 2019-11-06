@@ -359,8 +359,8 @@ defmodule Scrivener.HTML do
             to: to,
             rel: Scrivener.HTML.SEO.rel(paginator, page_number),
             class: li_classes_for_style(paginator, page_number, :semantic) |> Enum.join(" ")
-          ] |> may_make_live(to, live_links)
-        )
+          ] |> may_make_live(live_links)
+        ) |> may_make_live(to)
       end
     else
       content_tag(:a, safe(text),
@@ -391,8 +391,8 @@ defmodule Scrivener.HTML do
               to: to,
               rel: Scrivener.HTML.SEO.rel(paginator, page_number),
               class: link_classes_for_style(paginator, page_number, style) |> Enum.join(" ")
-            ] |> may_make_live(to, live_links)
-          )
+            ] |> may_make_live(live_links)
+          ) |> may_make_live(to)
         end
       else
         style
@@ -404,12 +404,9 @@ defmodule Scrivener.HTML do
     end
   end
 
-  defp may_make_live(keywords, _to, false), do: keywords
-  defp may_make_live(keywords, to, true) do
-    keywords
-    |> Keyword.put(:"data-phx-live-link", "push")
-  end
-
+  # add phoenix_live_view marker here
+  defp may_make_live(keywords, false), do: keywords
+  defp may_make_live(keywords, true), do: keywords |> Keyword.put(:"data-phx-live-link", "push")
 
 
   defp active_page?(%{page_number: page_number}, page_number), do: true
