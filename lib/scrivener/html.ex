@@ -354,13 +354,7 @@ defmodule Scrivener.HTML do
           class: link_classes_for_style(paginator, page_number, :semantic) |> Enum.join(" ")
         )
       else
-        link(safe(text),
-          [
-            to: to,
-            rel: Scrivener.HTML.SEO.rel(paginator, page_number),
-            class: li_classes_for_style(paginator, page_number, :semantic) |> Enum.join(" ")
-          ] |> may_make_live(live_links)
-        ) |> may_make_live(to)
+        create_link(text, to, paginator, page_number, :semantic, live_links)
       end
     else
       content_tag(:a, safe(text),
@@ -386,13 +380,7 @@ defmodule Scrivener.HTML do
             class: link_classes_for_style(paginator, page_number, style) |> Enum.join(" ")
           )
         else
-          link(safe(text),
-            [
-              to: to,
-              rel: Scrivener.HTML.SEO.rel(paginator, page_number),
-              class: link_classes_for_style(paginator, page_number, style) |> Enum.join(" ")
-            ] |> may_make_live(live_links)
-          ) |> may_make_live(to)
+          create_link(text, to, paginator, page_number, style, live_links)
         end
       else
         style
@@ -404,9 +392,29 @@ defmodule Scrivener.HTML do
     end
   end
 
-  # add phoenix_live_view marker here
-  defp may_make_live(keywords, false), do: keywords
-  defp may_make_live(keywords, true), do: keywords |> Keyword.put(:"data-phx-live-link", "push")
+  # generate live or normal links
+  defp create_link(text, to, paginator, page_number, style, false) do
+    link(safe(text),
+        [
+          to: to,
+          rel: Scrivener.HTML.SEO.rel(paginator, page_number),
+          class: li_classes_for_style(paginator, page_number, style) |> Enum.join(" ")
+        ]
+      )
+  end
+
+  defp create_link(text, to, paginator, page_number, style, true) do
+    content_tag(:a, safe(text),
+      [
+        href: to,
+        to: to,
+        rel: Scrivener.HTML.SEO.rel(paginator, page_number),
+        class: li_classes_for_style(paginator, page_number, style) |> Enum.join(" "),
+        "data-phx-live-link": "push"
+      ]
+    )
+  end
+
 
 
   defp active_page?(%{page_number: page_number}, page_number), do: true
