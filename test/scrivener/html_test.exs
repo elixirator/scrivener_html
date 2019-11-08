@@ -21,16 +21,8 @@ defmodule Scrivener.HTMLTest do
       assert pages(1..10) == links_with_opts(total_pages: 20, page_number: 5)
     end
 
-    test "2 away from the first when (total_pages - page_number) == 3" do
-      assert pages(1..10) == links_with_opts(total_pages: 10, page_number: 3)
-    end
-
-    test "2 away from the first when (total_pages - page_number) < 3" do
-      assert pages(1..7) == links_with_opts(total_pages: 10, page_number: 2)
-    end
-
-    test "2 away from the first when (total_pages - page_number) > 3" do
-      assert pages(1..8) == links_with_opts(total_pages: 11, page_number: 3)
+    test "2 away from the first" do
+      assert pages(1..8) == links_with_opts(total_pages: 10, page_number: 3)
     end
 
     test "1 away from the first" do
@@ -45,12 +37,8 @@ defmodule Scrivener.HTMLTest do
       assert pages(10..20) == links_with_opts(total_pages: 20, page_number: 15)
     end
 
-    test "2 away from the last when (total_pages - page_number) < 3" do
-      assert pages(1..10) == links_with_opts(total_pages: 10, page_number: 8)
-    end
-
-    test "2 away from the last when (total_pages - page_number) > 3" do
-      assert pages(4..13) == links_with_opts(total_pages: 13, page_number: 9)
+    test "2 away from the last" do
+      assert pages(3..10) == links_with_opts(total_pages: 10, page_number: 8)
     end
 
     test "1 away from the last" do
@@ -174,7 +162,7 @@ defmodule Scrivener.HTMLTest do
 
     test "does not include ellipsis on first page" do
       assert pages(1..6) ==
-               links_with_opts([total_pages: 10, page_number: 1], first: true, ellipsis: "&hellip;")
+               links_with_opts([total_pages: 8, page_number: 1], first: true, ellipsis: "&hellip;")
     end
 
     test "uses ellipsis only beyond <distance> of first page" do
@@ -617,9 +605,9 @@ defmodule Scrivener.HTMLTest do
                   [
                     60,
                     "li",
-                    [[32, "class", 61, 34, "", 34]],
+                    [[32, "class", 61, 34, "ellipsis", 34]],
                     62,
-                    [60, "span", [[32, "class", 61, 34, "", 34]], 62, "9", 60, 47, "span", 62],
+                    [60, "span", [[32, "class", 61, 34, "", 34]], 62, "", 60, 47, "span", 62],
                     60,
                     47,
                     "li",
